@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -13,6 +13,7 @@ namespace DuelistSharp
 {
     internal class Program
     {
+        private static System.Collections.Generic.List<Ensage.Hero> enemies;
         private static Ability Duel, Heal, Odds;
         private static Item Blink, armlet, mjollnir, medallion, solar, soulRing, urn, dust, bladeMail, bkb, abyssal;
         private static Hero me, target;
@@ -103,22 +104,35 @@ namespace DuelistSharp
                 dust = me.FindItem("item_dust");
             if (bladeMail == null)
                 bladeMail = me.FindItem("item_blade_mail");
-
+           
             var duelManacost = Heal.ManaCost + Duel.ManaCost;
 
             // Main combo
 
             if (active && toggle)
             {
+                enemies = ObjectMgr.GetEntities<Hero>().Where(x => me.Team != x.Team && !x.IsIllusion && x.IsAlive).ToList();
                 target = me.ClosestToMouseTarget(1000);
+                 
                 if (target != null && target.IsAlive && !target.IsInvul() && !target.IsIllusion)
                 {
                     if (me.CanAttack() && me.CanCast()) {
 
+
                         var linkens = target.Modifiers.Any(x => x.Name == "modifier_item_spheretarget") || target.Inventory.Items.Any(x => x.Name == "item_sphere");
 
                         // here allied skills & items
+                        if (medallion != null && medallion.CanBeCasted() && Utils.SleepCheck("medallion"))
+                        {
+                            medallion.UseAbility(target.Player.Hero);
+                            Utils.Sleep(150 + Game.Ping, "medallion");
+                        }
 
+                        if (solar != null && solar.CanBeCasted() && Utils.SleepCheck("solar"))
+                        {
+                            solar.UseAbility(target.Player.Hero);
+                            Utils.Sleep(200 + Game.Ping, "solar");
+                        }
                         if (soulRing != null && soulRing.CanBeCasted() && me.Mana < duelManacost && me.Health > 300 && Utils.SleepCheck("soulring"))
                         {
                             soulRing.UseAbility();
@@ -153,7 +167,7 @@ namespace DuelistSharp
                         if (bkb != null && bkb.CanBeCasted() && Utils.SleepCheck("bkb") && bkbToggle)
                         {
                             bkb.UseAbility();
-                            Utils.Sleep(150 + Game.Ping, "bkb");
+                            Utils.Sleep(100 + Game.Ping, "bkb");
                         }
 
                         Utils.ChainStun(me, 200, null, false);
@@ -180,25 +194,13 @@ namespace DuelistSharp
                         if (abyssal != null && abyssal.CanBeCasted() && Utils.SleepCheck("abyssal"))
                         {
                             abyssal.UseAbility(target);
-                            Utils.Sleep(400 + Game.Ping, "abyssal");
+                            Utils.Sleep(200 + Game.Ping, "abyssal");
                         }
 
                         if (abyssal != null)
                             Utils.ChainStun(me, 310, null, false);
 
-                        if (medallion != null && medallion.CanBeCasted() && Utils.SleepCheck("medallion"))
-                        {
-                            medallion.UseAbility(target);
-                            Utils.Sleep(150 + Game.Ping, "medallion");
-                        }
-
-                        if (solar != null && solar.CanBeCasted() && Utils.SleepCheck("solar"))
-                        {
-                            solar.UseAbility(target);
-                            Utils.Sleep(200 + Game.Ping, "solar");
-                        }
-
-                        if (dust != null && dust.CanBeCasted() && (target.CanGoInvis() || target.IsInvisible()) && Utils.SleepCheck("dust"))
+                      if (dust != null && dust.CanBeCasted() && (target.CanGoInvis() || target.IsInvisible()) && Utils.SleepCheck("dust"))
                         {
                             dust.UseAbility();
                             Utils.Sleep(200 + Game.Ping, "dust");
