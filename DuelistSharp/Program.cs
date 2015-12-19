@@ -118,98 +118,87 @@ namespace DuelistSharp
                 {
                     if (me.CanAttack() && me.CanCast()) {
 
-
-                        var linkens = target.Modifiers.Any(x => x.Name == "modifier_item_spheretarget") || target.Inventory.Items.Any(x => x.Name == "item_sphere");
-
-                        // here allied skills & items
-                        if (medallion != null && medallion.CanBeCasted() && Utils.SleepCheck("medallion"))
-                        {
-                            medallion.UseAbility(target.Player.Hero);
-                            Utils.Sleep(150 + Game.Ping, "medallion");
-                        }
-
-                        if (solar != null && solar.CanBeCasted() && Utils.SleepCheck("solar"))
-                        {
-                            solar.UseAbility(target.Player.Hero);
-                            Utils.Sleep(200 + Game.Ping, "solar");
-                        }
-                        if (soulRing != null && soulRing.CanBeCasted() && me.Mana < duelManacost && me.Health > 300 && Utils.SleepCheck("soulring"))
-                        {
-                            soulRing.UseAbility();
-                            Utils.Sleep(150 + Game.Ping, "soulring");
-                        }
-
-                        if (bladeMail != null && bladeMail.CanBeCasted() && Utils.SleepCheck("blademail"))
-                        {
-                            bladeMail.UseAbility();
-                            Utils.Sleep(150 + Game.Ping, "blademail");
-                        }
-
-                        if (armlet != null && armlet.CanBeCasted() && Utils.SleepCheck("armlet1") && !armlet.IsToggled)
-                        {
-                            armlet.ToggleAbility();
-                            Utils.Sleep(150 + Game.Ping, "armlet1");
-                        }
-
-                        if (mjollnir != null && mjollnir.CanBeCasted() && Utils.SleepCheck("mjollnir"))
-                        {
-                            mjollnir.UseAbility(me);
-                            Utils.Sleep(150 + Game.Ping, "mjollnir");
-                        }
-
-                        if (Heal.CanBeCasted() && Utils.SleepCheck("heal") && (!bkb.CanBeCasted() || !me.IsMagicImmune()))
-                        {
-                            Heal.UseAbility(me);
-                            Utils.Sleep(150 + Game.Ping, "heal");
-                        }
-                        Utils.ChainStun(me, 100, null, false);
-
-                        if (bkb != null && bkb.CanBeCasted() && Utils.SleepCheck("bkb") && bkbToggle)
-                        {
-                            bkb.UseAbility();
-                            Utils.Sleep(100 + Game.Ping, "bkb");
-                        }
-
-                        Utils.ChainStun(me, 200, null, false);
-
-                        // Blink
-
                         if (Blink != null && Blink.CanBeCasted() && me.Distance2D(target) > 300 && me.Distance2D(target) <= 1170 && Utils.SleepCheck("blink1"))
                         {
                             Blink.UseAbility(target.Position);
                             Utils.Sleep(150 + Game.Ping, "blink1");
                         }
 
-                        // Enemy items & skills
+                        var linkens = target.Modifiers.Any(x => x.Name == "modifier_item_spheretarget") || target.Inventory.Items.Any(x => x.Name == "item_sphere");
 
-                        //if (Odds.CanBeCasted() && Utils.SleepCheck("odds") && !target.IsMoving)
-                        //{
-                        //    Odds.UseAbility(target.Position);
-                        //    Utils.Sleep(200 + Game.Ping, "odds");
-                        //}
 
-                        if (!Odds.CanBeCasted())
-                            Utils.ChainStun(me, 200, null, false);
+                      if (abyssal != null && abyssal.CanBeCasted() )
+                            {
+                                abyssal.UseAbility(target.Player.Hero);
+                                
+                            }
+                        
+                        
 
-                        if (abyssal != null && abyssal.CanBeCasted() && Utils.SleepCheck("abyssal"))
-                        {
-                            abyssal.UseAbility(target);
-                            Utils.Sleep(200 + Game.Ping, "abyssal");
-                        }
-
-                        if (abyssal != null)
-                            Utils.ChainStun(me, 310, null, false);
-
-                      if (dust != null && dust.CanBeCasted() && (target.CanGoInvis() || target.IsInvisible()) && Utils.SleepCheck("dust"))
-                        {
-                            dust.UseAbility();
-                            Utils.Sleep(200 + Game.Ping, "dust");
-                        }
-
+                    
                         if (Duel.CanBeCasted() && me.CanAttack() && !target.IsInvul() && Utils.SleepCheck("duel") && !linkens)
                         {
-                            Duel.UseAbility(target);
+                           
+                           
+
+                            if (!Odds.CanBeCasted())
+                                Utils.ChainStun(me, 200, null, false);
+
+                            if (soulRing != null && soulRing.CanBeCasted() && me.Mana < duelManacost && me.Health > 300 && Utils.SleepCheck("soulring"))
+                            {
+                                soulRing.UseAbility();
+                                Utils.Sleep(100 + Game.Ping, "soulring");
+                            }
+                            
+                            if (armlet != null && armlet.CanBeCasted() && Utils.SleepCheck("armlet1") && !armlet.IsToggled)
+                            {
+                                armlet.ToggleAbility();
+                                Utils.Sleep(100 + Game.Ping, "armlet1");
+                            }
+                            if (mjollnir != null && mjollnir.CanBeCasted() && Utils.SleepCheck("mjollnir"))
+                            {
+                                mjollnir.UseAbility(me);
+                                Utils.Sleep(100 + Game.Ping, "mjollnir");
+                            }
+                            if (Heal.CanBeCasted() && Utils.SleepCheck("heal") && (!bkb.CanBeCasted() || !me.IsMagicImmune()))
+                            {
+                                Heal.UseAbility(me);
+                                Utils.Sleep(100 + Game.Ping, "heal");
+                            }
+                            Utils.ChainStun(me, 100, null, false);
+                            if (bladeMail != null && bladeMail.CanBeCasted() && Utils.SleepCheck("blademail"))
+                            {
+                                bladeMail.UseAbility();
+                                Utils.Sleep(100 + Game.Ping, "blademail");
+                            }
+
+                            if (medallion != null && medallion.CanBeCasted() && Utils.SleepCheck("medallion"))
+                            {
+                                medallion.UseAbility(target.Player.Hero);
+                                Utils.Sleep(100 + Game.Ping, "medallion");
+                            }
+                            if (solar != null && solar.CanBeCasted() && Utils.SleepCheck("solar"))
+                            {
+                                solar.UseAbility(target.Player.Hero);
+                                Utils.Sleep(100 + Game.Ping, "solar");
+                            }
+
+                        
+                            if (bkb != null && bkb.CanBeCasted() && Utils.SleepCheck("bkb") && bkbToggle)
+                            {
+                                bkb.UseAbility();
+                                Utils.Sleep(100 + Game.Ping, "bkb");
+                            }
+                                                       
+                            Utils.ChainStun(me, 200, null, false);
+                            Duel.UseAbility(target.Player.Hero);
                             Utils.Sleep(150 + Game.Ping, "duel");
+                        }
+
+                        if (Blink != null && Blink.CanBeCasted() && me.Distance2D(target) > 300 && me.Distance2D(target) <= 1170 && Utils.SleepCheck("blink1"))
+                        {
+                            Blink.UseAbility(target);
+                            Utils.Sleep(150 + Game.Ping, "blink1");
                         }
 
                         if (!Duel.CanBeCasted() && Utils.SleepCheck("attack2"))
